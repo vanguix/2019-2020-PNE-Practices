@@ -14,5 +14,6 @@ def fibosum(n):
             sumn += number
     return sumn
 
+
 print("Sum of the First 5 terms of the Fibonacci series:", fibosum(5))
 print("Sum of the First 10 terms of the Fibonacci series:", fibosum(10))
