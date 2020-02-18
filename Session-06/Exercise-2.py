@@ -8,7 +8,6 @@ class Seq:
                 return
 
         self.stringbases = stringbases
-        print("Correct object!")
 
     def __str__(self):
         return self.stringbases
@@ -16,9 +15,10 @@ class Seq:
     def len(self):
         return len(self.stringbases)
 
+    def print_seqs(self):
+        return (f"Sequence :(Length {stringbases.len()}){self.stringbases}")
 
-# -- Main program
-s1 = Seq("ACCTGC")
-s2 = Seq("Hello? Am I a valid sequence?")
-print(f"Sequence 1: {s1}")
-print(f"Sequence 2: {s2}")
+
+seq_list = [Seq("ACT"), Seq("GATA"), Seq("CAGATA")]
+for sequence in seq_list:
+    sequence.print_seqs()

@@ -37,3 +37,15 @@ def seq_count(seq):
         else:
             d["G"] += 1
     return d
+
+
+def seq_reverse(seq):
+    return seq[::-1]
+
+def seq_complement(seq):
+    d = {"A": "T", "T":"A", "C":"G", "G":"C"}
+    newseq = ""
+    for element in seq:
+        newseq += d[element]
+
+    return newseq

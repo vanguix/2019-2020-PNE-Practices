@@ -1,5 +1,5 @@
 from Seq0 import *
-listseq = ["U5", "ADA", "FRAT1", "FXN"]
+listseq = ["U5", "ADA", "FRAT1", "FXN","RNU6_269P"]
 txt = ".txt"
 folder = "../Session-04/"
 print("----Exercise 3----")
