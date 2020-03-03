@@ -1,19 +1,22 @@
+# -- Clinet chat example
 import socket
 
 # SERVER IP, PORT
 PORT = 8080
-IP = "192.168.1.135"
+IP = "192.168.124.179"
 
 while True:
-    # -- Ask the user for the message
-    print("Please enter a message\n")
+    # -- Ask the user for a message
+    m = input("Message to send: ")
+
     # -- Create the socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # -- Establish the connection to the Server
+
+    # Establish the connection to the Server (IP, PORT)
     s.connect((IP, PORT))
-    # -- Send the user message
-    msg = s.recv(2048)
-    print("Please enter a message\n")
-    print(msg.decode("utf-8"))
-    # -- Close the socket
+
+    # Send data
+    s.send(str.encode(m))
+
+    # Closing the socket
     s.close()
