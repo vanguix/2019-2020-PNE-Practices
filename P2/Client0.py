@@ -1,4 +1,6 @@
 import socket
+import termcolor
+
 
 class Client:
     def __init__(self, ip, port):
@@ -9,7 +11,7 @@ class Client:
         print("OK!")
 
     def __str__(self):
-        return (f"Connection to SERVER at {self.ip}, PORT: {self.port}")
+        return f"Connection to SERVER at {self.ip}, PORT: {self.port}"
 
     def talk(self, msg):
         # -- Create the socket
@@ -29,3 +31,9 @@ class Client:
 
         # Return the response
         return response
+
+    def debug_talk(self, msg):
+        print("To server: ", end="")
+        termcolor.cprint(msg, "blue")
+        print("From server:")
+        termcolor.cprint(self.talk(msg), "green")
