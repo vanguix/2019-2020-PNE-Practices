@@ -56,7 +56,7 @@ class Seq:
             for element in self.stringbases:
                 if element == base:
                     counter += 1
-        return counter
+        return counter, round((counter/self.len()) * 100, 1)
 
     def reverse(self):
         if self.stringbases == self.NULL:
