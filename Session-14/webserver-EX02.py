@@ -34,14 +34,18 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # Message to send back to the clinet
 
         request = self.requestline.split()[1]
-        if request == "/" or request == "/index.html":
+        if self.path == "/" or self.path == "/index.html":
             FILENAME = "index.html"
             contents = read_fasta("../Session-14/" + FILENAME)
-            self.send_response(200)
         else:
             FILENAME = "error.html"
             contents = read_fasta("../P4/" + FILENAME)
+
+        if self.path == "/" or self.path == "/index.html":
+            self.send_response(200)
+        else:
             self.send_response(404)
+
 
 
 
