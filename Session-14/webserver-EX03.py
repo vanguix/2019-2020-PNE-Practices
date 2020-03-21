@@ -39,10 +39,15 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             contents = read_fasta("../Session-14/" + FILENAME)
             self.send_response(200)
         else:
-            FILENAME = "error.html"
-            contents = read_fasta("../P4/" + FILENAME)
-            self.send_response(404)
-
+            try:
+                file = request.split(".")[0]
+                FILENAME = file + ".html"
+                contents = read_fasta("../Session-14/" + FILENAME)
+                self.send_response(200)
+            except FileNotFoundError:
+                FILENAME = "error.html"
+                contents = read_fasta("../P4/" + FILENAME)
+                self.send_response(404)
 
 
 
