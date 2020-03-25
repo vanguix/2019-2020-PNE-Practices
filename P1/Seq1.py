@@ -86,6 +86,7 @@ class Seq:
         return self
 
 
+
 def generate_seqs(pattern, number):
     seq_list = []
     for element in range(1, number + 1):
