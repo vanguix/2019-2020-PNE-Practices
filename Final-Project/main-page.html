@@ -2,12 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Browsing Human and Vertebrates genome</title>
+    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
   </head>
   <body style="background-color: lightblue;">
     <form action="listSpecies" method="get">
         <h1>Browsing Human and Vertebrates genome</h1>
-        <h2>Basic Level Services</h2>
         <br>
         1)List of species in the genome database
         <br>
@@ -40,6 +39,57 @@
         <input type="text" name="chromo">
         <br>
         <input type="submit" value="Send">
+        <hr>
     </form>
     </body>
+<body>
+    <form action="geneSeq" method="get">
+        4)Sequence of a human gene:
+        <br>
+        Select the gene:
+        <input type="text" name="gene">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
+<body>
+    <form action="geneInfo" method="get">
+        5)Information about a human gene:
+        <br>
+        Select the gene:
+        <input type="text" name="gene">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
+<body>
+    <form action="geneCalc" method="get">
+        6)Calculations on a given human gene:
+        <br>
+        Select the gene:
+        <input type="text" name="gene">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
+<body>
+    <form action="karyotype" method="get">
+        7)Names of the genes of a given chromosome:
+        <br>
+        Select the chromosome:
+        <input type="text" name="chromo">
+        <br>
+        Select the starting point:
+        <input type="text" name="start">
+        <br>
+        Select the finishing point:
+        <input type="text" name="end">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
 </html>

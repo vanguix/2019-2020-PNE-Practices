@@ -2,7 +2,6 @@ import http.server
 import socketserver
 import termcolor
 from pathlib import Path
-from Seq1 import Seq
 import http.client
 import json
 
@@ -22,10 +21,22 @@ def get_data(endpoint):
     response = json.loads(data1)
     return response
 
+def html_format(colour):
+    return f"""<!DOCTYPE html>
+           <html lang="en">
+           <head>
+               <meta charset="UTF-8">
+               <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+           </head>
+           <body style="background-color: {colour};">
+           </body>
+           </html>"""
 
 PORT = 8080
 
+
 socketserver.TCPServer.allow_reuse_address = True
+
 
 class TestHandler(http.server.BaseHTTPRequestHandler):
 
@@ -47,93 +58,73 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             number = second_argument.split("=")[1]
             data = get_data("info/species?content-type=application/json")
             species = data["species"]
+            contents = html_format("lightyellow")
+            contents += f"""<p>Total number of species in the ensembl is: 267</p>"""
+            contents += f"""<p>The limit you have selected is:{number}</p>"""
+            contents += f"""<p>The names of the species are:</p>"""
             if number == "":
-                contents = f"""<!DOCTYPE html>
-                               <html lang="en">
-                               <head>
-                                   <meta charset="UTF-8">
-                                   <title>SPECIES</title>
-                               </head>
-                               <body style="background-color: lightyellow;">
-                                <p>Total number of species in the ensembl is: 267</p>
-                                <p>The limit you have selected is:{number}</p>
-                                <p>The names of the species are:</p>
-                               </body>
-                               </html>"""
                 for element in species:
-                    contents += f"""<p> - {element["common_name"]}</p> """
-
+                    contents += f"""<p> - {element["display_name"]}</p> """
             elif 267 >= int(number):
-                contents=f"""<!DOCTYPE html>
-                            <html lang="en">
-                            <head>
-                                <meta charset="UTF-8">
-                                <title>SPECIES</title>
-                            </head>
-                            <body style="background-color: lightyellow;">
-                                <p>Total number of species in the ensembl is: 267</p>
-                                <p>The limit you have selected is:{number}</p>
-                                <p>The names of the species are:</p>
-                            </body>
-                            </html>"""
                 counter = 0
                 for element in species:
                     if counter < int(number):
-                        contents += f"""<p> - {element["common_name"]}</p> """
+                        contents += f"""<p> - {element["display_name"]}</p> """
                     counter += 1
-
             else:
-                contents = f"""<!DOCTYPE html>
-                                   <html lang="en">
-                                   <head>
-                                       <meta charset="UTF-8">
-                                       <title>SPECIES</title>
-                                   </head>
-                                   <body style="background-color: lightyellow;">
-                                    <p>Total number of species in the ensembl is: 267</p>
-                                    <p>The limit you have selected is:{number}</p>
-                                    <p>The names of the species are:</p>
-                                   </body>
-                                   </html>"""
                 for element in species:
-                    contents += f"""<p> - {element["common_name"]}</p> """
+                    contents += f"""<p> - {element["display_name"]}</p> """
 
+        elif firts_argument == "/karyotype":
+            error_code = 200
+            second_argument = arguments[1]
+            specie = second_argument.split("=")[1]
+            data = get_data(f"/info/assembly/{specie}?content-type=application/json")
+            karyotype = data["karyotype"]
+            contents = html_format("lightgreen")
+            contents += f"""<p>The names of the chromosomes are:</p>"""
+            for chromosome in karyotype:
+                contents += f"""<p> - {chromosome}</p>"""
 
+        elif firts_argument == "/chromosomeLength":
+            error_code = 200
+            second_argument = arguments[1]
+            specie, chromo = second_argument.split("&")
+            specie_name = specie.split("=")[1]
+            chromo_name = chromo.split("=")[1]
+            data = get_data(f"/info/assembly/{specie_name}?content-type=application/json")
+            information = data["top_level_region"]
+            contents = html_format("salmon")
+            for chromosome in information:
+                if chromosome["coord_system"] == "chromosome":
+                    if chromosome["name"] == chromo_name:
+                        contents += f"""<p> The length of the chromosome is: {chromosome["length"]}</p>"""
 
-        #elif firts_argument == "/karyotype":
+        elif firts_argument == "/geneSeq":
+            error_code = 200
+            second_argument = arguments[1]
+            gene = second_argument.split("=")[1]
+            gene_id = get_data(f"""/xrefs/symbol/homo_sapiens/{gene}?content-type=application/json""")[0]["id"]
+            data = get_data(f"""/sequence/id/{gene_id}?content-type=application/json""")
+            contents = html_format("pink")
+            contents += f'<p> The sequence of gene {gene} is: </p>'
+            contents += f'<textarea rows = "100" "cols = 500"> {data["seq"]} </textarea>'
+
         else:
             contents = Path('Error.html').read_text()
             error_code = 404
 
-        # Generating the response message
-        self.send_response(error_code)  # -- Status line: OK!
-
-        # Define the content-type header:
+        self.send_response(error_code)
         self.send_header('Content-Type', 'text/html')
         self.send_header('Content-Length', len(str.encode(contents)))
-
-        # The header is finished
         self.end_headers()
-
-        # Send the response message
         self.wfile.write(str.encode(contents))
-
         return
 
 
-# ------------------------
-# - Server MAIN program
-# ------------------------
-# -- Set the new handler
 Handler = TestHandler
-
-# -- Open the socket server
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-
     print("Serving at PORT", PORT)
-
-    # -- Main loop: Attend the client. Whenever there is a new
-    # -- clint, the handler is called
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

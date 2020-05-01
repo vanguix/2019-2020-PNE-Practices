@@ -1,0 +1,150 @@
+Test report example
+====================
+
+---> listSpecies endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/listSpecies?limit=5
+
+* output:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+</head>
+<body style="background-color: lightyellow;">
+<body>
+   <p>The total number of species in the ensembl is : 267 </p>
+   <p>The limit you have selected is :5 </p>
+   <p>The names of the species are : </p>
+   <p>- mallard </p>
+   <p>- small-eared galago</p>
+   <p>- tuatara</p>
+   <p>- hybrid cattle</p>
+   <p>- bicolor damselfish</p>
+</body>
+</html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/listSpecies?limit=300
+
+* output:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+</head>
+<body style="background-color: lightyellow;">
+<body>
+   <p>The total number of species in the ensembl is : 267 </p>
+   <p>The limit you have selected is :300 </p>
+   <p>The names of the species are : </p>
+   <p>- Domestic ferret</p>
+   <p>- pig</p>
+   .......
+</body>
+</html>
+
+
+* TEST 3:
+
+* Input:
+
+http://127.0.0.1:8080/listSpecies?limit=
+
+* output:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+</head>
+<body style="background-color: lightyellow;">
+<body>
+   <p>The total number of species in the ensembl is : 267 </p>
+   <p>The limit you have selected is : </p>
+   <p>The names of the species are : </p>
+   <p>- Domestic ferret</p>
+   <p>- pig</p>
+   ......
+</body>
+</html>
+
+
+---> karyotype endpoint
+
+* TEST 4:
+
+* Input:
+
+http://127.0.0.1:8080/karyotype?specie=homo_sapiens
+
+* output:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+</head>
+<body style="background-color: lightgreen;">
+<body>
+   <p>The names of the chromosomes are: </p>
+   <p>- 1</p>
+   <p>- 2</p>
+   <p>- 3</p>
+   <p>- 4</p>
+   <p>- 5</p>
+   <p>- 6</p>
+   <p>- 7</p>
+   <p>- 8</p>
+   ......
+   <p>- X</p>
+   <p>- Y</p>
+   <p>- MT</p>
+</body>
+</html>
+
+
+* TEST 5:
+
+* Input:
+
+http://127.0.0.1:8080/karyotype?specie=dog
+
+* output:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+</head>
+<body style="background-color: lightgreen;">
+<body>
+   <p>The names of the chromosomes are: </p>
+   <p>- 1</p>
+   <p>- 2</p>
+   <p>- 3</p>
+   <p>- 4</p>
+   <p>- 5</p>
+   <p>- 6</p>
+   ......
+   <p>- 38</p>
+   <p>- X</p>
+   <p>- MT</p>
+</body>
+</html>
+
