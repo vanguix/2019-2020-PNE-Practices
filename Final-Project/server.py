@@ -4,6 +4,10 @@ import termcolor
 from pathlib import Path
 import http.client
 import json
+from Seq1 import Seq
+
+list_bases = ["A","C","G","T"]
+
 
 def get_data(endpoint):
     PORT = 8080
@@ -21,16 +25,18 @@ def get_data(endpoint):
     response = json.loads(data1)
     return response
 
-def html_format(colour):
+
+def html_format(colour,title):
     return f"""<!DOCTYPE html>
            <html lang="en">
            <head>
                <meta charset="UTF-8">
-               <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+               <title>{title}</title>
            </head>
            <body style="background-color: {colour};">
            </body>
            </html>"""
+
 
 PORT = 8080
 
@@ -58,9 +64,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             number = second_argument.split("=")[1]
             data = get_data("info/species?content-type=application/json")
             species = data["species"]
-            contents = html_format("lightyellow")
-            contents += f"""<p>Total number of species in the ensembl is: 267</p>"""
-            contents += f"""<p>The limit you have selected is:{number}</p>"""
+            contents = html_format("lightyellow","List of species")
+            contents += f"""<h1> SPECIES ON DATABASE OF ENSEMBL </h1>"""
+            contents += f"""<p>Total number of species in the ensembl database is 267</p>"""
+            contents += f"""<p>The limit you have selected is: {number}</p>"""
             contents += f"""<p>The names of the species are:</p>"""
             if number == "":
                 for element in species:
@@ -81,8 +88,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             specie = second_argument.split("=")[1]
             data = get_data(f"/info/assembly/{specie}?content-type=application/json")
             karyotype = data["karyotype"]
-            contents = html_format("lightgreen")
-            contents += f"""<p>The names of the chromosomes are:</p>"""
+            contents = html_format("lightgreen", "Karyotype")
+            contents += f"""<h1> KARYOTYPE </h1>"""
+            contents += f"""<p>The names of the chromosomes from {specie} are:</p>"""
             for chromosome in karyotype:
                 contents += f"""<p> - {chromosome}</p>"""
 
@@ -94,11 +102,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             chromo_name = chromo.split("=")[1]
             data = get_data(f"/info/assembly/{specie_name}?content-type=application/json")
             information = data["top_level_region"]
-            contents = html_format("salmon")
+            contents = html_format("salmon","Chromosome length")
+            contents += "<h1> CHROMOSOME LENGTH </h1>"
             for chromosome in information:
                 if chromosome["coord_system"] == "chromosome":
                     if chromosome["name"] == chromo_name:
-                        contents += f"""<p> The length of the chromosome is: {chromosome["length"]}</p>"""
+                        contents += f"""<p> The length of the chromosome {chromo_name} is: {chromosome["length"]}</p>"""
 
         elif firts_argument == "/geneSeq":
             error_code = 200
@@ -106,9 +115,52 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
             gene = second_argument.split("=")[1]
             gene_id = get_data(f"""/xrefs/symbol/homo_sapiens/{gene}?content-type=application/json""")[0]["id"]
             data = get_data(f"""/sequence/id/{gene_id}?content-type=application/json""")
-            contents = html_format("pink")
+            contents = html_format("pink", "Sequences")
+            contents += "<h1> SEQUENCES OF HUMAN GENES </h1>"
             contents += f'<p> The sequence of gene {gene} is: </p>'
             contents += f'<textarea rows = "100" "cols = 500"> {data["seq"]} </textarea>'
+
+        elif firts_argument == "/geneInfo":
+            error_code = 200
+            second_argument = arguments[1]
+            gene = second_argument.split("=")[1]
+            gene_id = get_data(f"""/xrefs/symbol/homo_sapiens/{gene}?content-type=application/json""")[0]["id"]
+            data = get_data(f"""/lookup/id/{gene_id}?content-type=application/json""")
+            contents = html_format("plum","Information")
+            contents += f'<h1>INFORMATION ABOUT HUMAN GENE {gene} </h1>'
+            contents += f'<p> The start point is: {data["start"]}</p>'
+            contents += f'<p> The end point is: {data["end"]}</p>'
+            contents += f'<p> The length of the gene is: {data["end"] - data["start"]}</p>'
+            contents += f'<p> The id of the gene is: {gene_id}</p>'
+            contents += f'<p> The gene is on chromosome {data["seq_region_name"]}</p>'
+
+        elif firts_argument == "/geneCalc":
+            error_code = 200
+            second_argument = arguments[1]
+            gene = second_argument.split("=")[1]
+            gene_id = get_data(f"""/xrefs/symbol/homo_sapiens/{gene}?content-type=application/json""")[0]["id"]
+            data = get_data(f"""/sequence/id/{gene_id}?content-type=application/json""")
+            sequence = Seq(data["seq"])
+            contents = html_format("lightblue", "Calculations")
+            contents += F"<h1> CALCULATIONS OF GENE {gene}</h1>"
+            contents += f"<p> Total length: {sequence.len()} </p>"
+            contents += "<p> Percentage of its bases: </p>"
+            for base in list_bases:
+                contents += f"<p>- {base}: {sequence.seq_count_base(base)[1]}%</p>"
+
+        elif firts_argument == "/geneList":
+            error_code = 200
+            second_argument = arguments[1]
+            chromo, start, end = second_argument.split("&")
+            chromo_name = chromo.split("=")[1]
+            start_point = start.split("=")[1]
+            end_point = end.split("=")[1]
+            data = get_data(f"""/overlap/region/human/{chromo_name}:{start_point}-{end_point}?feature=gene;content-type=application/json""")
+            contents = html_format("peachpuff", "List of genes")
+            contents += "<h1> LIST OF GENES </h1>"
+            contents += f"<p> Here is the list of some genes from chromosome {chromo_name}:</p>"
+            for gene in data:
+                contents += f'<p> - {gene["external_name"]}</p>'
 
         else:
             contents = Path('Error.html').read_text()
