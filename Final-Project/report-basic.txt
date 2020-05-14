@@ -1,41 +1,116 @@
 Test report example
 ====================
 
----> listSpecies endpoint
+---> Main page
 
 * TEST 1:
 
-* Input:
-
-http://127.0.0.1:8080/listSpecies?limit=5
+* Input:  http://127.0.0.1:8080/
 
 * output:
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="utf-8">
     <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
-</head>
-<body style="background-color: lightyellow;">
+  </head>
+  <body style="background-color: aquamarine;">
+    <form action="listSpecies" method="get">
+        <h1>Browsing Human and Vertebrates genome</h1>
+        <br>
+        1)List of species in the genome database
+        <br>
+        Limit:
+        <input type="text" name="limit">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+        </form>
+  </body>
+  <body>
+    <form action="karyotype" method="get">
+        2)Information about the karyotype:
+        <br>
+        Select the species:
+        <input type="text" name="specie">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
+    <body>
+    <form action="chromosomeLength" method="get">
+        3)Chromosome Length:
+        <br>
+        Select the species:
+        <input type="text" name="specie">
+        <br>
+        Select the chromosome:
+        <input type="text" name="chromo">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+    </body>
 <body>
-   <p>The total number of species in the ensembl is : 267 </p>
-   <p>The limit you have selected is :5 </p>
-   <p>The names of the species are : </p>
-   <p>- mallard </p>
-   <p>- small-eared galago</p>
-   <p>- tuatara</p>
-   <p>- hybrid cattle</p>
-   <p>- bicolor damselfish</p>
-</body>
+    <form action="geneSeq" method="get">
+        4)Sequence of a human gene:
+        <br>
+        Select the gene:
+        <input type="text" name="gene">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
+<body>
+    <form action="geneInfo" method="get">
+        5)Information about a human gene:
+        <br>
+        Select the gene:
+        <input type="text" name="gene">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
+<body>
+    <form action="geneCalc" method="get">
+        6)Calculations on a given human gene:
+        <br>
+        Select the gene:
+        <input type="text" name="gene">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
+<body>
+    <form action="geneList" method="get">
+        7)Names of the genes of a given chromosome:
+        <br>
+        Select the chromosome:
+        <input type="text" name="chromo">
+        <br>
+        Select the starting point:
+        <input type="text" name="start">
+        <br>
+        Select the finishing point:
+        <input type="text" name="end">
+        <br>
+        <input type="submit" value="Send">
+        <hr>
+    </form>
+  </body>
 </html>
 
 
+---> listSpecies endpoint
+
 * TEST 2:
 
-* Input:
-
-http://127.0.0.1:8080/listSpecies?limit=300
+* Input: http://127.0.0.1:8080/listSpecies?limit=5
 
 * output:
 
@@ -43,16 +118,19 @@ http://127.0.0.1:8080/listSpecies?limit=300
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+    <title>List of species</title>
 </head>
 <body style="background-color: lightyellow;">
 <body>
-   <p>The total number of species in the ensembl is : 267 </p>
-   <p>The limit you have selected is :300 </p>
-   <p>The names of the species are : </p>
-   <p>- Domestic ferret</p>
-   <p>- pig</p>
-   .......
+   <h1> SPECIES ON DATABASE OF ENSEMBL </h1>
+   <p>The total number of species in the ensembl is 267 </p>
+   <p>The limit you have selected is: 5 </p>
+   <p>The names of the species are: </p>
+   <p>- Mainland tiger snake</p>
+   <p>- Chilean tinamou</p>
+   <p>- Red fox</p>
+   <p>- Sperm whale</p>
+   <p>- Great spotted kiwi</p>
 </body>
 </html>
 
@@ -69,17 +147,300 @@ http://127.0.0.1:8080/listSpecies?limit=
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+    <title>List of species</title>
 </head>
 <body style="background-color: lightyellow;">
-<body>
-   <p>The total number of species in the ensembl is : 267 </p>
-   <p>The limit you have selected is : </p>
-   <p>The names of the species are : </p>
-   <p>- Domestic ferret</p>
-   <p>- pig</p>
-   ......
+    <h1> SPECIES ON DATABASE OF ENSEMBL </h1>
+    <p>Total number of species in the ensembl database is 267</p>
+    <p>The limit you have selected is: </p>
+    <p>The names of the species are:</p>
+    <p> - Mainland tiger snake</p>
+    <p> - Chilean tinamou</p>
+    <p> - Red fox</p>
+    <p> - Sperm whale</p>
+    <p> - Great spotted kiwi</p>
+    <p> - Pinecone soldierfish</p>
+    <p> - Greater bamboo lemur</p>
+    <p> - Kakapo</p>
+    <p> - Lamprey</p>
+    <p> - Gouldian finch</p>
+    <p> - Electric eel</p>
+    <p> - Okarito brown kiwi</p>
+    <p> - Large yellow croaker</p>
+    <p> - Channel bull blenny</p>
+    <p> - Mouse NZO/HlLtJ</p>
+    <p> - Zebrafish</p>
+    <p> - Common carp huanghe</p>
+    <p> - Mouse A/J</p>
+    <p> - Pig - Wuzhishan</p>
+    <p> - Horned golden-line barbel</p>
+    <p> - Tree Shrew</p>
+    <p> - Marmoset</p>
+    <p> - Spotted gar</p>
+    <p> - Tiger</p>
+    <p> - Goat</p>
+    <p> - Central bearded dragon</p>
+    <p> - Naked mole-rat female</p>
+    <p> - American black bear</p>
+    <p> - Tetraodon</p>
+    <p> - Meerkat</p>
+    <p> - Steppe mouse</p>
+    <p> - Lyretail cichlid</p>
+    <p> - Mangrove rivulus</p>
+    <p> - Gorilla</p>
+    <p> - Sheep</p>
+    <p> - Bicolor damselfish</p>
+    <p> - Coelacanth</p>
+    <p> - Midas cichlid</p>
+    <p> - Ma's night monkey</p>
+    <p> - Pachon cavefish</p>
+    <p> - Common wombat</p>
+    <p> - Blue-ringed sea krait</p>
+    <p> - Gilthead seabream</p>
+    p> - Indian peafowl</p>
+    <p> - Pig-tailed macaque</p>
+    <p> - American beaver</p>
+    <p> - Pig - Jinhua</p>
+    <p> - Duck</p>
+    <p> - Shrew mouse</p>
+    <p> - Western mosquitofish</p>
+    <p> - Agassiz's desert tortoise</p>
+    <p> - Helmeted guineafowl</p>
+    <p> - Amazon molly</p>
+    <p> - Chinese hamster CHOK1GS</p>
+    <p> - Orangutan</p>
+    <p> - Olive baboon</p>
+    <p> - Orbiculate cardinalfish</p>
+    <p> - Zebra mbuna</p>
+    <p> - Elephant</p>
+    <p> - American mink</p>
+    <p> - Guinea Pig</p>
+    <p> - Platypus</p>
+    <p> - Capuchin</p>
+    <p> - Golden-collared manakin</p>
+    <p> - Three-toed box turtle</p>
+    <p> - Prairie vole</p>
+    <p> - Tropical clawed frog</p>
+    <p> - Common carp</p>
+    <p> - Blue tilapia</p>
+    <p> - Flycatcher</p>
+    <p> - Pig - Bamei</p>
+    <p> - Spoon-billed sandpiper</p>
+    <p> - African ostrich</p>
+    <p> - Periophthalmus magnuspinnatus</p>
+    <p> - Chinese softshell turtle</p>
+    <p> - Asiatic black bear</p>
+    <p> - Reedfish</p> <p> - Tarsier</p>
+    <p> - Clown anemonefish</p>
+    <p> - Huchen</p>
+    <p> - Horse</p>
+    <p> - Pig - Landrace</p>
+    <p> - Chinese hamster PICR</p>
+    <p> - Mouse</p>
+    <p> - Mexican tetra</p>
+    <p> - Lesser hedgehog tenrec</p>
+    <p> - Jewelled blenny</p>
+    <p> - Tongue sole</p>
+    <p> - Mouse 129S1/SvImJ</p>
+    <p> - Leopard</p>
+    <p> - Live sharksucker</p>
+    <p> - Great Tit</p>
+    <p> - Northern pike</p>
+    <p> - Yellowtail amberjack</p>
+    <p> - Ruff</p>
+    <p> - Alpaca</p>
+    <p> - Mouse Lemur</p>
+    <p> - Ugandan red Colobus</p>
+    <p> - Human</p>
+    <p> - Mouse BALB/cJ</p>
+    <p> - Pig - Rongchang</p>
+    <p> - Drill</p>
+    <p> - Burton's mouthbrooder</p>
+    <p> - Lion</p>
+    <p> - Burrowing owl</p>
+    <p> - Hyrax</p>
+    <p> - Indian glassy fish</p>
+    <p> - Gelada</p>
+    <p> - Mouse FVB/NJ</p>
+    <p> - Budgerigar</p>
+    <p> - Japanese medaka HNI</p>
+    <p> - Chacoan peccary</p>
+    <p> - Pink-footed goose</p>
+    <p> - Tiger tail seahorse</p>
+    <p> - Mouse CBA/J</p>
+    <p> - Turbot</p>
+    <p> - Opossum</p>
+    <p> - Greater horseshoe bat</p>
+    <p> - Paramormyrops kingsleyae</p>
+    <p> - Blind barbel</p>
+    <p> - Rufous-capped babbler</p>
+    <p> - Komodo dragon</p>
+    <p> - Saccharomyces cerevisiae</p>
+    <p> - Monterrey platyfish</p>
+    <p> - Beluga whale</p>
+    <p> - Painted turtle</p>
+    <p> - Japanese medaka HSOK</p>
+    <p> - Mouse NOD/ShiLtJ</p>
+    <p> - Angola colobus</p>
+    <p> - Golden Hamster</p>
+    <p> - Spiny chromis</p>
+    <p> - Naked mole-rat male</p>
+    <p> - Makobe Island cichlid</p>
+    <p> - Dog - Basenji</p>
+    <p> - Fugu</p>
+    <p> - Golden pheasant</p>
+    <p> - Crab-eating macaque</p>
+    <p> - Koala</p>
+    <p> - Mouse DBA/2J</p>
+    <p> - Nile tilapia</p>
+    <p> - Ring-necked pheasant</p>
+    <p> - Kangaroo rat</p>
+    <p> - Megabat</p>
+    <p> - Caenorhabditis elegans</p>
+    <p> - Alpine marmot</p>
+    <p> - Mallard</p>
+    <p> - Mouse PWK/PhJ</p>
+    <p> - Hybrid - Bos Indicus</p>
+    <p> - Mouse C57BL/6NJ</p>
+    <p> - Round goby</p>
+    <p> - Siamese fighting fish</p>
+    <p> - Polar bear</p>
+    <p> - Brazilian guinea pig</p>
+    <p> - Sooty mangabey</p>
+    <p> - Pig - Tibetan</p>
+    <p> - Lesser Egyptian jerboa</p>
+    <p> - Javanese ricefish</p>
+    <p> - Common wall lizard</p>
+    <p> - Rabbit</p>
+    <p> - Chimpanzee</p>
+    <p> - Siberian musk deer</p>
+    <p> - Dingo</p>
+    <p> - Bolivian squirrel monkey</p>
+    <p> - Long-tailed chinchilla</p>
+    <p> - Drosophila melanogaster</p>
+    <p> - Eastern brown snake</p>
+    <p> - Pig - Largewhite</p>
+    <p> - Australian saltwater crocodile</p>
+    <p> - Anole lizard</p>
+    <p> - Shortfin molly</p>
+    <p> - Wallaby</p>
+    <p> - Atlantic salmon</p>
+    <p> - Domestic yak</p>
+    <p> - Chinese medaka</p>
+    <p> - Rat</p>
+    <p> - Sheepshead minnow</p>
+    <p> - Bushbaby</p>
+    <p> - Eastern happy</p>
+    <p> - Blue tit</p>
+    <p> - Algerian mouse</p>
+    <p> - Pig - Meishan</p>
+    <p> - Atlantic herring</p>
+    <p> - Japanese quail</p>
+    <p> - Dog - Great Dane</p>
+    <p> - Little spotted kiwi</p>
+    <p> - Canada lynx</p>
+    <p> - Swamp eel</p>
+    <p> - Platyfish</p>
+    <p> - Microbat</p>
+    <p> - West African mud turtle</p>
+    <p> - Armadillo</p>
+    <p> - Greater amberjack</p>
+    <p> - Eurasian sparrowhawk</p>
+    <p> - Goodes thornscrub tortoise</p>
+    <p> - American bison</p>
+    <p> - Brown trout</p>
+    <p> - Argentine black and white tegu</p>
+    <p> - Mouse C3H/HeJ</p>
+    <p> - Damara mole rat</p>
+    <p> - Cow</p>
+    <p> - Macaque</p>
+    <p> - Golden-line barbel</p>
+    <p> - Japanese medaka HdrR</p>
+    <p> - Black snub-nosed monkey</p>
+    <p> - Blunt-snouted clingfish</p>
+    <p> - Elephant shark</p>
+    <p> - Northern American deer mouse</p>
+    <p> - Pig USMARC</p>
+    <p> - Barramundi perch</p>
+    <p> - Common carp german mirror</p>
+    <p> - Hedgehog</p>
+    <p> - Squirrel</p>
+    <p> - Degu</p>
+    <p> - Yellow-billed parrot</p>
+    <p> - Medium ground-finch</p>
+    <p> - Golden eagle</p>
+    <p> - Climbing perch</p>
+    <p> - Turkey</p>
+    <p> - Abingdon island giant tortoise</p>
+    <p> - Mouse WSB/EiJ</p>
+    <p> - Tasmanian devil</p>
+    <p> - Common canary</p>
+    <p> - Mummichog</p>
+    <p> - Panda</p>
+    <p> - Gibbon</p>
+    <p> - Zebra finch</p>
+    <p> - Goldfish</p>
+    <p> - White-throated sparrow</p>
+    <p> - Dark-eyed junco</p>
+    <p> - Guppy</p>
+    <p> - Zig-zag eel</p>
+    <p> - Chinese hamster CriGri</p>
+    <p> - Upper Galilee mountains blind mole rat</p>
+    <p> - Pig</p>
+    <p> - Mouse AKR/J</p>
+    <p> - Bonobo</p>
+    <p> - Dog</p>
+    <p> - Ocean sunfish</p>
+    <p> - Small tree finch</p>
+    <p> - C.savignyi</p>
+    <p> - Rainbow trout</p>
+    <p> - Mongolian gerbil</p>
+    <p> - Chicken</p>
+    <p> - Blue-crowned manakin</p>
+    <p> - Daurian ground squirrel</p>
+    <p> - Wild yak</p>
+    <p> - Coquerel's sifaka</p>
+    <p> - Vervet-AGM</p>
+    <p> - Stickleback</p>
+    <p> - Hagfish</p>
+    <p> - Ballan wrasse</p>
+    <p> - Mouse LP/J</p>
+    <p> - Bengalese finch</p>
+    <p> - Mouse CAST/EiJ</p>
+    <p> - Common snapping turtle</p>
+    <p> - Sailfin molly</p>
+    <p> - Pig - Hampshire</p>
+    <p> - Tuatara</p>
+    <p> - Shrew</p>
+    <p> - Ryukyu mouse</p>
+    <p> - Pig - Pietrain</p>
+    <p> - European seabass</p>
+    <p> - Swan goose</p>
+    <p> - Denticle herring</p>
+    <p> - Dolphin</p>
+    <p> - Emu</p>
+    <p> - Arctic ground squirrel</p>
+    <p> - Cod</p>
+    <p> - Ferret</p>
+    <p> - Common carp hebao red</p>
+    <p> - Orange clownfish</p>
+    <p> - Silver-eye</p>
+    <p> - Golden snub-nosed monkey</p>
+    <p> - C.intestinalis</p>
+    <p> - Pig - Berkshire</p>
+    <p> - Pika</p>
+    <p> - Sloth</p>
+    <p> - Indian medaka</p>
+    <p> - Red-bellied piranha</p>
+    <p> - Arabian camel</p>
+    <p> - Donkey</p>
+    <p> - Asian bonytongue</p>
+    <p> - Hybrid - Bos Taurus</p>
+    <p> - Chinook salmon</p>
+    <p> - Channel catfish</p>
+    <p> - Cat</p>
 </body>
+
 </html>
 
 
@@ -97,23 +458,36 @@ http://127.0.0.1:8080/karyotype?specie=homo_sapiens
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+    <title>Karyotype</title>
 </head>
 <body style="background-color: lightgreen;">
-<body>
-   <p>The names of the chromosomes are: </p>
-   <p>- 1</p>
-   <p>- 2</p>
-   <p>- 3</p>
-   <p>- 4</p>
-   <p>- 5</p>
-   <p>- 6</p>
-   <p>- 7</p>
-   <p>- 8</p>
-   ......
-   <p>- X</p>
-   <p>- Y</p>
-   <p>- MT</p>
+   <h1> KARYOTYPE </h1>
+   <p>The names of the chromosomes from homo_sapiens are:</p>
+   <p> - 1</p>
+   <p> - 2</p>
+   <p> - 3</p>
+   <p> - 4</p>
+   <p> - 5</p>
+   <p> - 6</p>
+   <p> - 7</p>
+   <p> - 8</p>
+   <p> - 9</p>
+   <p> - 10</p>
+   <p> - 11</p>
+   <p> - 12</p>
+   <p> - 13</p>
+   <p> - 14</p>
+   <p> - 15</p>
+   <p> - 16</p>
+   <p> - 17</p>
+   <p> - 18</p>
+   <p> - 19</p>
+   <p> - 20</p>
+   <p> - 21</p>
+   <p> - 22</p>
+   <p> - X</p>
+   <p> - Y</p>
+   <p> - MT</p>
 </body>
 </html>
 
@@ -130,21 +504,95 @@ http://127.0.0.1:8080/karyotype?specie=dog
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BROWSING HUMAN AND VERTEBRATES GENOME</title>
+    <title>Karyotype</title>
 </head>
 <body style="background-color: lightgreen;">
-<body>
-   <p>The names of the chromosomes are: </p>
-   <p>- 1</p>
-   <p>- 2</p>
-   <p>- 3</p>
-   <p>- 4</p>
-   <p>- 5</p>
-   <p>- 6</p>
-   ......
-   <p>- 38</p>
-   <p>- X</p>
-   <p>- MT</p>
+    <h1> KARYOTYPE </h1>
+    <p>The names of the chromosomes from dog are:</p>
+    <p> - 1</p>
+    <p> - 2</p>
+    <p> - 3</p>
+    <p> - 4</p>
+    <p> - 5</p>
+    <p> - 6</p>
+    <p> - 7</p>
+    <p> - 8</p>
+    <p> - 9</p>
+    <p> - 10</p>
+    <p> - 11</p>
+    <p> - 12</p>
+    <p> - 13</p>
+    <p> - 14</p>
+    <p> - 15</p>
+    <p> - 16</p>
+    <p> - 17</p>
+    <p> - 18</p>
+    <p> - 19</p>
+    <p> - 20</p>
+    <p> - 21</p>
+    <p> - 22</p>
+    <p> - 23</p>
+    <p> - 24</p>
+    <p> - 25</p>
+    <p> - 26</p>
+    <p> - 27</p>
+    <p> - 28</p>
+    <p> - 29</p>
+    <p> - 30</p>
+    <p> - 31</p>
+    <p> - 32</p>
+    <p> - 33</p>
+    <p> - 34</p>
+    <p> - 35</p>
+    <p> - 36</p>
+    <p> - 37</p>
+    <p> - 38</p>
+    <p> - X</p>
+    <p> - MT</p>
 </body>
 </html>
+
+
+---> chromosomeLength endpoint
+
+* TEST 6:
+
+* Input: http://127.0.0.1:8080/chromosomeLength?specie=pig&chromo=1
+
+* Outpout:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chromosome length</title>
+</head>
+<body style="background-color: salmon;">
+    <h1> CHROMOSOME LENGTH </h1>
+    <p> The length of the chromosome 1 is: 274330532</p>
+</body>
+</html>
+
+
+* TEST 7:
+
+* Input: http://127.0.0.1:8080/chromosomeLength?specie=mouse&chromo=4
+
+* Outpout:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chromosome length</title>
+</head>
+<body style="background-color: salmon;">
+    <h1> CHROMOSOME LENGTH </h1>
+    <p> The length of the chromosome 4 is: 156508116</p>
+</body>
+</html>
+
+
+
+
 
