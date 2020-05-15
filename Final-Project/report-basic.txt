@@ -121,7 +121,7 @@ Test report example
     <title>List of species</title>
 </head>
 <body style="background-color: lightyellow;">
-<body>
+ <body>
    <h1> SPECIES ON DATABASE OF ENSEMBL </h1>
    <p>The total number of species in the ensembl is 267 </p>
    <p>The limit you have selected is: 5 </p>
@@ -131,7 +131,7 @@ Test report example
    <p>- Red fox</p>
    <p>- Sperm whale</p>
    <p>- Great spotted kiwi</p>
-</body>
+ </body>
 </html>
 
 
