@@ -78,14 +78,14 @@ def dict_geneInfo(start, end, length, id, chromo): #no me sale :(
     client_dict = json.dumps(contents)
     return client_dict
 
-def dict_geneCalc(length, calc_A, calc_C, calc_G, calc_T):
+def dict_geneCalc(length, list):
     contents = {
         "Total length of the gene is": length,
         "The percentage of each base in the sequence of this gene is"
-        "A": calc_A,
-        "C": calc_C,
-        "G": calc_G,
-        "T": calc_T
+        "A": list[0],
+        "C": list[1],
+        "G": list[2],
+        "T": list[3]
     }
     client_dict = json.dumps(contents)
     return client_dict
@@ -304,10 +304,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     data = get_data(f"""/sequence/id/{gene_id}?content-type=application/json""")
                     sequence = Seq(data["seq"])
                     if json == "json=1":
-                        dict = {}
+                        bases = []
                         for base in list_bases:
-                            dict.update(f"{base}: ({sequence.seq_count_base(base)[1]}%)")
-                        contents = dict_geneCalc(sequence.len(), dict)
+                            bases.append(sequence.seq_count_base(base)[1])
+                        contents = dict_geneCalc(sequence.len(), bases)
                         self.send_response(200)
                     else:
                         contents = Path('Error.html').read_text()
@@ -337,7 +337,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     data = get_data(f"""/overlap/region/human/{chromo_name}:{start_point}-{end_point}?feature=gene;content-type=application/json""")
                     if json == "json=1":
                         list = []
-                        contents = json.dumps(data)
+                        for gene in data:
+                            list.append(gene["external_name"])
+                        contents = dict_geneList(list)
                         self.send_response(200)
                     else:
                         contents = Path('Error.html').read_text()
