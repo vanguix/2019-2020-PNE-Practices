@@ -1,5 +1,6 @@
 import http.client
 import termcolor
+import json
 
 def menu():
     print("1 - /listSpecies (limit)")
@@ -24,7 +25,8 @@ def client(client_request):
     r1 = conn.getresponse()
     print(f"Response received!: {r1.status} {r1.reason}\n")
     data1 = r1.read().decode("utf-8")
-    termcolor.cprint(f"CONTENT: {data1}", "blue")
+    data = json.loads(data1)
+    termcolor.cprint(f"CONTENT: {data}", "blue")
 
 options = True
 while options:

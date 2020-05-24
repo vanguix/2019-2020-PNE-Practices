@@ -53,6 +53,50 @@ def dict_karyotype(list):
     client_dict = json.dumps(contents)
     return client_dict
 
+def dict_chromosomeLength(length):
+    contents = {
+        "The length of the selected chromosome is": length
+    }
+    client_dict = json.dumps(contents)
+    return client_dict
+
+def dict_geneSeq(seq):
+    contents = {
+        "The sequence of the selected gen is": seq
+    }
+    client_dict = json.dumps(contents)
+    return client_dict
+
+def dict_geneInfo(start, end, length, id, chromo): #no me sale :(
+    contents = {
+        "The start point is": start,
+        "The end point is": end,
+        "The length of the gene is": length,
+        "The ID of the gene is": id,
+        "The chromosome of this gene is": chromo
+    }
+    client_dict = json.dumps(contents)
+    return client_dict
+
+def dict_geneCalc(length, calc_A, calc_C, calc_G, calc_T):
+    contents = {
+        "Total length of the gene is": length,
+        "The percentage of each base in the sequence of this gene is"
+        "A": calc_A,
+        "C": calc_C,
+        "G": calc_G,
+        "T": calc_T
+    }
+    client_dict = json.dumps(contents)
+    return client_dict
+
+def dict_geneList(list):
+    contents = {
+        "List of genes located in the introduced chromosome": list
+    }
+    client_dict = json.dumps(contents)
+    return client_dict
+
 
 PORT = 8080
 
@@ -73,13 +117,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         try:
             if firts_argument == "/":
                 contents = Path("main-page.html").read_text()
-                error_code = 200
+                self.send_response(200)
 
             elif firts_argument == "/listSpecies":
-                error_code = 200
                 second_argument = arguments[1]
                 parameters = second_argument.split("&")
-                data = get_data("info/species?content-type=application/json")
+                data = get_data("info/species?content-type=application/json")["species"]
                 if len(parameters) == 2:
                     parameter_1, json = second_argument.split("&")
                     number = parameter_1.split("=")[1]
@@ -103,10 +146,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                 list.append(element["display_name"])
                                 counter += 1
                             contents = dict_listSpecies(number, list)
-
+                        self.send_response(200)
                     else:
                         contents = Path('Error.html').read_text()
-                        error_code = 404
+                        self.send_response(404)
 
                 elif len(parameters) == 1:
                     number = second_argument.split("=")[1]
@@ -128,22 +171,26 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     else:
                         for element in species:
                             contents += f"""<p> - {element["display_name"]}</p> """
+                self.send_response(200)
 
             elif firts_argument == "/karyotype":
-                error_code = 200
                 second_argument = arguments[1]
                 parameters = second_argument.split("&")
                 if len(parameters) == 2:
                     parameter_1, json = second_argument.split("&")
                     specie = parameter_1.split("=")[1]
-                    data = get_data(f"/info/assembly/{specie}?content-type=application/json")
+                    data = get_data(f"/info/assembly/{specie}?content-type=application/json")["karyotype"]
 
                     if json == "json=1":
-                        contents = data["karyotype"]
+                        list = []
+                        for element in data:
+                            list.append(element)
+                        contents = dict_karyotype(list)
+                        self.send_response(200)
 
                     else:
                         contents = Path('Error.html').read_text()
-                        error_code = 404
+                        self.send_response(404)
 
                 elif len(parameters) == 1:
                     specie = second_argument.split("=")[1]
@@ -154,24 +201,29 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     contents += f"""<p>The names of the chromosomes from {specie} are:</p>"""
                     for chromosome in karyotype:
                         contents += f"""<p> - {chromosome}</p>"""
+                self.send_response(200)
 
             elif firts_argument == "/chromosomeLength":
-                error_code = 200
                 second_argument = arguments[1]
                 arguments = second_argument.split("&")
                 if len(arguments) == 3:
                     specie, chromo, json = second_argument.split("&")
                     specie_name = specie.split("=")[1]
-                    #chromo_name = chromo.split("=")[1]
+                    chromo_name = chromo.split("=")[1]
                     data = get_data(f"/info/assembly/{specie_name}?content-type=application/json")
 
                     if json == "json=1":
-                        contents = data["top_level_region"]
-                        #no se si aqui faltaría algo
+                        info = data["top_level_region"]
+                        contents = dict_chromosomeLength(0)
+                        for element in info:
+                            if element["name"] == chromo_name:
+                                length = element["length"]
+                                contents = dict_chromosomeLength(length)
+                        self.send_response(200)
 
                     else:
                         contents = Path('Error.html').read_text()
-                        error_code = 404
+                        self.send_response(404)
 
                 elif len(arguments) == 2:
                     specie, chromo = second_argument.split("&")
@@ -186,21 +238,23 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             if chromosome["name"] == chromo_name:
                                 c_lenght = chromosome['length']
                                 contents += f"""<p> The length of the chromosome {chromo_name} is: {c_lenght}</p>"""
+                    self.send_response(200)
 
             elif firts_argument == "/geneSeq":
-                error_code = 200
                 second_argument = arguments[1]
                 parameters = second_argument.split("&")
+
                 if len(parameters) == 2:
                     parameter_1, json = second_argument.split("&")
                     gene = parameter_1.split("=")[1]
                     gene_id = get_data(f"""/xrefs/symbol/homo_sapiens/{gene}?content-type=application/json""")[0]["id"]
                     data = get_data(f"""/sequence/id/{gene_id}?content-type=application/json""")
                     if json == "json=1":
-                        contents = data
+                        contents = dict_geneSeq(data["seq"])
+                        self.send_response(200)
                     else:
                         contents = Path('Error.html').read_text()
-                        error_code = 404
+                        self.send_response(404)
                 elif len(parameters) == 1:
                     gene = second_argument.split("=")[1]
                     gene_id = get_data(f"""/xrefs/symbol/homo_sapiens/{gene}?content-type=application/json""")[0]["id"]
@@ -209,9 +263,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     contents += "<h1> SEQUENCES OF HUMAN GENES </h1>"
                     contents += f'<p> The sequence of gene {gene} is: </p>'
                     contents += f'<textarea rows = "100" "cols = 500"> {data["seq"]} </textarea>'
+                self.send_response(200)
 
             elif firts_argument == "/geneInfo":
-                error_code = 200
                 second_argument = arguments[1]
                 parameters = second_argument.split("&")
                 if len(parameters) == 2:
@@ -220,10 +274,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     gene_id = get_data(f"""/xrefs/symbol/homo_sapiens/{gene}?content-type=application/json""")[0]["id"]
                     data = get_data(f"""/lookup/id/{gene_id}?content-type=application/json""")
                     if json == "json=1":
-                        contents = data
+                        length = data["end"] - data["start"]
+                        contents = dict_geneInfo(data["start"], data["end"], length, data["id"], data["seq_region_name"])
+                        self.send_response(200)
                     else:
                         contents = Path('Error.html').read_text()
-                        error_code = 404
+                        self.send_response(404)
 
                 elif len(parameters) == 1:
                     gene = second_argument.split("=")[1]
@@ -236,9 +292,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     contents += f'<p> The length of the gene is: {data["end"] - data["start"]}</p>'
                     contents += f'<p> The id of the gene is: {gene_id}</p>'
                     contents += f'<p> The gene is on chromosome {data["seq_region_name"]}</p>'
+                    self.send_response(200)
 
             elif firts_argument == "/geneCalc":
-                error_code = 200
                 second_argument = arguments[1]
                 parameters = second_argument.split("&")
                 if len(parameters) == 2:
@@ -246,11 +302,16 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     gene = parameter_1.split("=")[1]
                     gene_id = get_data(f"""/xrefs/symbol/homo_sapiens/{gene}?content-type=application/json""")[0]["id"]
                     data = get_data(f"""/sequence/id/{gene_id}?content-type=application/json""")
+                    sequence = Seq(data["seq"])
                     if json == "json=1":
-                        contents = data
+                        dict = {}
+                        for base in list_bases:
+                            dict.update(f"{base}: ({sequence.seq_count_base(base)[1]}%)")
+                        contents = dict_geneCalc(sequence.len(), dict)
+                        self.send_response(200)
                     else:
                         contents = Path('Error.html').read_text()
-                        error_code = 404
+                        self.send_response(404)
 
                 elif len(parameters) == 1:
                     gene = second_argument.split("=")[1]
@@ -263,9 +324,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     contents += "<p> Percentage of its bases: </p>"
                     for base in list_bases:
                         contents += f"<p>- {base}: {sequence.seq_count_base(base)[1]}%</p>"
+                self.send_response(200)
 
             elif firts_argument == "/geneList":
-                error_code = 200
                 second_argument = arguments[1]
                 parameters = second_argument.split("&")
                 if len(parameters) == 4:
@@ -275,10 +336,12 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     end_point = end.split("=")[1]
                     data = get_data(f"""/overlap/region/human/{chromo_name}:{start_point}-{end_point}?feature=gene;content-type=application/json""")
                     if json == "json=1":
-                        contents = data
+                        list = []
+                        contents = json.dumps(data)
+                        self.send_response(200)
                     else:
                         contents = Path('Error.html').read_text()
-                        error_code = 404
+                        self.send_response(404)
 
                 elif len(parameters) == 3:
                     chromo, start, end = second_argument.split("&")
@@ -291,22 +354,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     contents += f"<p> Here is the list of some genes from chromosome {chromo_name}:</p>"
                     for gene in data:
                         contents += f'<p> - {gene["external_name"]}</p>'
+                self.send_response(200)
 
         except (KeyError, TypeError, ValueError, IndexError):
             contents = Path('Error.html').read_text()
-            error_code = 404
+            self.send_response(404)
 
         endpoints = ["/", "/listSpecies", "/karyotype", "/chromosomeLength",
                      "/geneSeq", "/geneInfo", "/geneCalc", "/geneList"]
 
         if firts_argument in endpoints:
-            if json == "json=1":
+            if "json=1" in path:
                 type = "application/json"
             else:
                 type = "text/html"
 
         self.send_header('Content-Type', type)
-        self.send_response(error_code)
         self.send_header('Content-Length', len(str.encode(contents)))
         self.end_headers()
         self.wfile.write(str.encode(contents))
