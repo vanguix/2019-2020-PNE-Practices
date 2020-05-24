@@ -126,7 +126,6 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 if len(parameters) == 2:
                     parameter_1, json = second_argument.split("&")
                     number = parameter_1.split("=")[1]
-
                     if json == "json=1":
                         list = []
                         counter = 0
@@ -153,23 +152,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
                 elif len(parameters) == 1:
                     number = second_argument.split("=")[1]
-                    species = data["species"]
                     contents = html_format("lightyellow", "List of species")
                     contents += f"""<h1> SPECIES ON DATABASE OF ENSEMBL </h1>"""
                     contents += f"""<p>Total number of species in the ensembl database is 267</p>"""
                     contents += f"""<p>The limit you have selected is: {number}</p>"""
                     contents += f"""<p>The names of the species are:</p>"""
                     if number == "":
-                        for element in species:
+                        for element in data:
                             contents += f"""<p> - {element["display_name"]}</p> """
                     elif 267 >= int(number):
                         counter = 0
-                        for element in species:
+                        for element in data:
                             if counter < int(number):
                                 contents += f"""<p> - {element["display_name"]}</p> """
                             counter += 1
                     else:
-                        for element in species:
+                        for element in data:
                             contents += f"""<p> - {element["display_name"]}</p> """
                 self.send_response(200)
 
