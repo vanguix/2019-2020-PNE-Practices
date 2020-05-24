@@ -1,6 +1,3 @@
-Test report example
-====================
-
 ---> Main page
 
 * TEST 1:

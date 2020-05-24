@@ -67,13 +67,13 @@ def dict_geneSeq(seq):
     client_dict = json.dumps(contents)
     return client_dict
 
-def dict_geneInfo(start, end, length, id, chromo): #no me sale :(
+def dict_geneInfo(start, end, length, id, chromo):
     contents = {
         "The start point is": start,
         "The end point is": end,
         "The length of the gene is": length,
         "The ID of the gene is": id,
-        "The chromosome of this gene is": chromo
+        "The gene is on chromosome": chromo
     }
     client_dict = json.dumps(contents)
     return client_dict
@@ -81,7 +81,7 @@ def dict_geneInfo(start, end, length, id, chromo): #no me sale :(
 def dict_geneCalc(length, list):
     contents = {
         "Total length of the gene is": length,
-        "The percentage of each base in the sequence of this gene is"
+        "The percentage of each base in the sequence of this gene is: "
         "A": list[0],
         "C": list[1],
         "G": list[2],
@@ -148,7 +148,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             contents = dict_listSpecies(number, list)
                         self.send_response(200)
                     else:
-                        contents = Path('Error.html').read_text()
+                        contents = Path("error.json").read_text()
                         self.send_response(404)
 
                 elif len(parameters) == 1:
@@ -189,7 +189,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         self.send_response(200)
 
                     else:
-                        contents = Path('Error.html').read_text()
+                        contents = Path("error.json").read_text()
                         self.send_response(404)
 
                 elif len(parameters) == 1:
@@ -222,7 +222,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         self.send_response(200)
 
                     else:
-                        contents = Path('Error.html').read_text()
+                        contents = Path("error.json").read_text()
                         self.send_response(404)
 
                 elif len(arguments) == 2:
@@ -253,7 +253,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         contents = dict_geneSeq(data["seq"])
                         self.send_response(200)
                     else:
-                        contents = Path('Error.html').read_text()
+                        contents = Path("error.json").read_text()
                         self.send_response(404)
                 elif len(parameters) == 1:
                     gene = second_argument.split("=")[1]
@@ -278,7 +278,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         contents = dict_geneInfo(data["start"], data["end"], length, data["id"], data["seq_region_name"])
                         self.send_response(200)
                     else:
-                        contents = Path('Error.html').read_text()
+                        contents = Path("error.json").read_text()
                         self.send_response(404)
 
                 elif len(parameters) == 1:
@@ -310,7 +310,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         contents = dict_geneCalc(sequence.len(), bases)
                         self.send_response(200)
                     else:
-                        contents = Path('Error.html').read_text()
+                        contents = Path("error.json").read_text()
                         self.send_response(404)
 
                 elif len(parameters) == 1:
@@ -342,7 +342,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                         contents = dict_geneList(list)
                         self.send_response(200)
                     else:
-                        contents = Path('Error.html').read_text()
+                        contents = Path("error.json").read_text()
                         self.send_response(404)
 
                 elif len(parameters) == 3:
@@ -366,7 +366,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                      "/geneSeq", "/geneInfo", "/geneCalc", "/geneList"]
 
         if firts_argument in endpoints:
-            if "json=1" in path:
+            if "json" in path:
                 type = "application/json"
             else:
                 type = "text/html"
